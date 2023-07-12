@@ -5,8 +5,8 @@ import json
 import pafy
 import tempfile
 import os
-# import yt_dlp as youtube_dl
-import youtube_dl
+import yt_dlp as youtube_dl
+# import youtube_dl
 
 def main(request):
     return render(request, 'main.html')
@@ -30,7 +30,6 @@ def download_video(request):
 			}
 
 			with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-				# ydl.download([video_url])
 				info = ydl.extract_info(video_url, download=False)
 				audio_url = info['formats'][0]['url']
 				audio_file = ydl.prepare_filename(info)
