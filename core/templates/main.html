@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}HOME{% endblock title %}
+{% block main %}
+    <h1>Download YouTube Video</h1>
+    <!-- <form method="POST" action=".">
+        {% csrf_token %}
+        
+        <label for="url">YouTube URL:</label>
+        <input type="text" name="url" id="url" required>
+        
+        <label for="quality">Preferred Quality:</label>
+        <select name="quality" id="quality">
+            <option value="144p">144p</option>
+            <option value="240p">240p</option>
+            <option value="360p">360p</option>
+            <option value="480p">480p</option>
+            <option value="720p" selected>720p</option>
+            <option value="1080p">1080p</option>
+            <option value="1440p">1440p</option>
+            <option value="2160p">2160p (4K)</option>
+        </select>
+        
+        <button type="submit">Download</button>
+    </form>
+     -->
+    <form method="POST" action="{% url 'convert' %}" id="convert-form">
+        {% csrf_token %}
+        
+        <label for="url">YouTube URL:</label>
+        <input type="text" name="url" id="url" required>
+        
+        <label for="quality">Preferred Quality:</label>
+        <select name="quality" id="quality">
+            <option value="128">128</option>
+            <option value="192" selected>192</option>
+            <option value="320">320</option>
+        </select>
+        
+        <button type="submit">Download</button>
+    </form>
+{% endblock main %}
+
+{% block scripts %}
+<script>
+    var form = document.querySelector('#convert-form');
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+  
+      var url = document.querySelector('#url').value;
+      var quality = document.querySelector('#quality').value;
+  
+      var data = {
+        "url": url,
+        "quality": quality
+      };
+  
+      fetch(form.action, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(function(response) {
+        // Handle the response
+        console.log(response)
+      })
+      .catch(function(error) {
+        console.error(error.message)
+      });
+    });
+</script>
+{% endblock scripts %}
